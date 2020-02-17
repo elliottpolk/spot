@@ -1,0 +1,52 @@
+plugins {
+	id 'java-library'
+	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+apply plugin: 'maven-publish'
+
+group = 'com.rocketmopp.spot'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+bootJar { enabled = false }
+
+jar {
+	enabled = true
+	baseName = "spot"
+}
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'eu.bitwalker:UserAgentUtils:1.21'
+
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'com.google.code.gson:gson'
+
+	compileOnly 'org.projectlombok:lombok'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
